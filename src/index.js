@@ -20,7 +20,6 @@ const store = createStore(
   );
 
 ReactDOM.render(
-  <React.StrictMode>
     <Provider store={store}>
     <ReactReduxFirebaseProvider
       firebase={firebase}
@@ -29,8 +28,7 @@ ReactDOM.render(
       createFirestoreInstance = {createFirestoreInstance}>
       <App />
     </ReactReduxFirebaseProvider>
-    </Provider>
-  </React.StrictMode>,
+    </Provider>,
   document.getElementById('root')
 );
 

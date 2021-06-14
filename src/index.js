@@ -3,27 +3,35 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { createStore, applyMiddleware, compose } from "redux";
+import { createStore, applyMiddleware } from "redux";
 import rootReducer from "./store/reducers/rootReducer";
 import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import { createFirestoreInstance } from "redux-firestore";
 import { getFirebase, ReactReduxFirebaseProvider } from "react-redux-firebase";
 import firebase from "./config/fbConfig";
+import { composeWithDevTools } from 'redux-devtools-extension';
+
 
 //with thunk we can return functions inside action creators which can then interact with database
 const store = createStore(
   rootReducer, 
-  compose(
+  composeWithDevTools(
     applyMiddleware(thunk.withExtraArgument(getFirebase)),
     )
   );
+
+
+const profileSpecificProps = {
+  userProfile: 'users',
+  useFirestoreForProfile: true
+}
 
 ReactDOM.render(
     <Provider store={store}>
     <ReactReduxFirebaseProvider
       firebase={firebase}
-      config = {{}}
+      config = {profileSpecificProps}
       dispatch = {store.dispatch}
       createFirestoreInstance = {createFirestoreInstance}>
       <App />
